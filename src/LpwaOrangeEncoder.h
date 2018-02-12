@@ -12,6 +12,7 @@
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-05-09 by Karim BAALI
+*			   2017-10-27 by Karim BAALI
 */
 
 
@@ -57,7 +58,7 @@ public:
 	* @param		len		Pointer on an uint8_t value to receive the payload length value
 	* @return		An uint8_t pointer on the frame payload
 	*/
-	int8_t* getFramePayload(int8_t* len);
+	uint8_t* getFramePayload(int8_t* len);
 
 	/**
 	* @brief		Quickly add a boolean value to a payload

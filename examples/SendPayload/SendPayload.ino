@@ -11,7 +11,8 @@
 * Version:     1.0-SNAPSHOT
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
-*			   2017-05-09 by Karim BAALI
+*			         2017-05-09 by Karim BAALI
+*              2017-10-27 by Karim BAALI
 */
 
 #include <OrangeForRN2483.h>
@@ -21,8 +22,8 @@
 #define DHTPIN A8     // what pin we're connected to
 
 // The following keys are for structure purpose only. You must define YOUR OWN. 
-const int8_t appEUI[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-const int8_t appKey[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+const uint8_t appEUI[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+const uint8_t appKey[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 bool first = true;
   
@@ -43,8 +44,8 @@ void setup() {
 bool SendLoRaMessage()
 {
   const uint8_t size = 5;
-  int8_t port = 5;
-  int8_t data[size] = { 0x48, 0x65, 0x6C, 0x6C, 0x6F }; // Hello
+  uint8_t port = 5;
+  uint8_t data[size] = { 0x48, 0x65, 0x6C, 0x6C, 0x6F }; // Hello
 
   return OrangeForRN2483.sendMessage(data, size, port); // send unconfirmed message
 }

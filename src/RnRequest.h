@@ -10,6 +10,7 @@
 *
 * Version:     1.0-SNAPSHOT
 * Created:     2017-05-03 by Halim BENDIABDALLAH
+* Modified:	   2017-10-27 by Karim BAALI
 */
 
 /**
@@ -108,7 +109,7 @@ public:
 protected:
 	SerialType* loraStream;
 
-	int8_t receiveBuffer[DEFAULT_INPUT_BUFFER_SIZE];
+	uint8_t receiveBuffer[DEFAULT_INPUT_BUFFER_SIZE];
 	eSuccessType successType;
 	eErrorType errorType;
 	bool isAsleep;
@@ -166,31 +167,32 @@ protected:
 
 	uint16_t getReceivedData();
 
-	uint16_t readLn(int8_t* buffer, uint16_t size);
+	uint16_t readLn(uint8_t* buffer, uint16_t size);
 
-	eErrorType checkErrors(int8_t* resp);
+	eErrorType checkErrors(uint8_t* resp);
 
 	bool isStreamInit();
 
 	void init();
 
-	bool writeHexString(const int8_t* paramValue, uint8_t lenParamValue);
+	bool writeHexString(const uint8_t* paramValue, uint8_t lenParamValue);
 	bool cmdRequest(uint8_t type, const char* command, const char* paramName);
 
-	int8_t* rnRequest(uint8_t type, const char* command, const char* paramName, const int8_t* paramValue, uint8_t lenParamValue);
-	int8_t* rnUplinkRequest(const char* paramName, const int8_t* paramValue, uint8_t lenParamValue, int8_t port);
-	int8_t* rnRequest(uint8_t type, const char* command, const char* paramName = NULL, const char* paramValues = NULL);
+	uint8_t* rnRequest(uint8_t type, const char* command, const char* paramName, const uint8_t* paramValue, uint8_t lenParamValue);
+	uint8_t* rnUplinkRequest(const char* paramName, const uint8_t* paramValue, uint8_t lenParamValue, uint8_t port);
+	uint8_t* rnRequest(uint8_t type, const char* command, const char* paramName = NULL, const char* paramValues = NULL);
 
 	uint32_t getTimeoutDelay(const char* command);
-	int8_t* getResponse(uint32_t timeout = DEFAULT_TIMEOUT);
+	uint8_t* getResponse(uint32_t timeout = DEFAULT_TIMEOUT);
 	
 	eSuccessType getLastSuccess();
 	eErrorType getLastError();
 	void setLastError(eErrorType errorType);
 	
-	eSuccessType checkSuccess(int8_t* resp);
+	eSuccessType checkSuccess(uint8_t* resp);
 	bool checkIsAsleep();
-
+	void setBreakCondition();
+	void setWakeupFlag();
 public:
 	/**
 	* @brief		Constructor for the RnRequestClass class

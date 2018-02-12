@@ -12,6 +12,7 @@
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-05-09 by Karim BAALI
+*			   2017-10-27 by Karim BAALI
 */
 
 /*!
@@ -43,14 +44,16 @@
 
 class OrangeForRN2483Class
 {
-protected:
+protected:	
 	RadioCmdsClass RadioCmds;
 	SysCmdsClass SysCmds;
-	DownlinkMessage downlinkMessage;
+	DownlinkMessage downlinkMessage;	
 
 	Stream* diagStream;
 	bool isNetworkJoined;
-	
+	bool deepSleeping;
+	bool exitSleepMode;
+
 	const char* params[COUNT_PARAM_MAC] = {
 		"devaddr",
 		"deveui",
@@ -96,15 +99,20 @@ protected:
 													"frame_counter_err_rejoin_needed"}; 
 	bool isStreamInit();
 	
-	int8_t* tx(eTypeMessage typeMessage, int8_t * data, uint8_t size, int8_t port);
+	uint8_t* tx(eTypeMessage typeMessage, uint8_t * data, uint8_t size, uint8_t port);
 
 
 	void setLastError(eErrorType errorType);
 
-	bool setOttaKeys(const int8_t* devEui, const int8_t* appEui, const int8_t* appKey);
+	bool setOttaKeys(const uint8_t* devEui, const uint8_t* appEui, const uint8_t* appKey);
 
 	void resetDevice();
+
 public:
+	static OrangeForRN2483Class* refOrangeForRN2483;
+
+	void onAlarmInterrupt();
+
 	/**
 	* @brief		Constructor for the OrangeForRN2483Class class
 	* @details		Used to instanciate a new OrangeForRN2483Class object
@@ -138,7 +146,7 @@ public:
 	* @param		appSKey		Hexadecimal number represented by an array whose size is \b 16 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool setAbpKeys(const int8_t* nwkSkey, const int8_t* appSKey);
+	bool setAbpKeys(const uint8_t* nwkSkey, const uint8_t* appSKey);
 
 	/**
 	* @brief		Sending a join request to the server
@@ -148,7 +156,7 @@ public:
 	* @param		appKey		Hexadecimal number represented by an array whose size is \b 16 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool joinNetwork(const int8_t* devEUI, const int8_t* appEUI, const int8_t* appKey);
+	bool joinNetwork(const uint8_t* devEUI, const uint8_t* appEUI, const uint8_t* appKey);
 
 	/**
 	* @brief		Sending a join request to the server with HWEUI by default
@@ -158,7 +166,7 @@ public:
 	* @param		appKey		Hexadecimal number represented by an array whose size is \b 16 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool joinNetwork(const int8_t* appEUI, const int8_t* appKey);
+	bool joinNetwork(const uint8_t* appEUI, const uint8_t* appKey);
 
 	/**
 	* @brief		Sending data to the server 
@@ -170,7 +178,7 @@ public:
 	* @param		port		Integer value representing the port to use
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool sendMessage(eTypeMessage typeMessage, int8_t* data, uint8_t size, int8_t port);
+	bool sendMessage(eTypeMessage typeMessage, uint8_t* data, uint8_t size, uint8_t port);
 
 	/**
 	* @brief		Sending data to the server
@@ -181,7 +189,7 @@ public:
 	* @param		port		Integer value representing the port to use
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool sendMessage(int8_t* data, uint8_t size, int8_t port);
+	bool sendMessage(uint8_t* data, uint8_t size, uint8_t port);
 
 	/**
 	* @brief		Getter for DownlinkMessage attribute
@@ -300,7 +308,7 @@ public:
 	*				by executing a "mac get band" command on the module
 	* @return		The received value as a \e decimal \e number, either 868 or 433
 	*/
-	int16_t getBand();
+	uint16_t getBand();
 
 	/**
 	* @brief		Getter on the number of retransmissions
@@ -308,7 +316,7 @@ public:
 	*				by executing a "mac get retx" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 255
 	*/
-	int16_t getRetransNb();
+	uint16_t getRetransNb();
 
 	/**
 	* @brief		Getter on the demodulation margin
@@ -316,7 +324,7 @@ public:
 	*				by executing a "mac get mrgn" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 255
 	*/
-	int16_t getDemodMargin();
+	uint16_t getDemodMargin();
 
 	/**
 	* @brief		Getter on the number of gateways
@@ -324,7 +332,7 @@ public:
 	*				by executing a "mac get gwnb" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 255
 	*/
-	int16_t getGatewayNb();
+	uint16_t getGatewayNb();
 
 	/**
 	* @brief		Getter on the data rate configured for the second receive window
@@ -333,7 +341,7 @@ public:
 	* @param		freqBand		Decimal number representing the frequency band
 	* @return		The received value as a \e decimal \e number
 	*/
-	int16_t getRx2(uint16_t freqBand);
+	uint16_t getRx2(uint16_t freqBand);
 
 	/**
 	* @brief		Getter on the interval for rxdelay1
@@ -341,7 +349,7 @@ public:
 	*				by executing a "mac get rxdelay1" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 65535
 	*/
-	int32_t getRxdelay1();
+	uint32_t getRxdelay1();
 
 	/**
 	* @brief		Getter on the interval for rxdelay2
@@ -349,7 +357,7 @@ public:
 	*				by executing a "mac get rxdelay2" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 65535
 	*/
-	int32_t getRxdelay2();
+	uint32_t getRxdelay2();
 
 	/**
 	* @brief		Getter on the duty cycle prescaler value
@@ -357,7 +365,7 @@ public:
 	*				by executing a "mac get dcycleps" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 65535
 	*/
-	int32_t getDCyclePs();
+	uint32_t getDCyclePs();
 
 	/**
 	* @brief		Getter on the uplink frame counter
@@ -365,7 +373,7 @@ public:
 	*				by executing a "mac get upctr" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 4294967295
 	*/
-	int64_t getUpctr();
+	uint64_t getUpctr();
 
 	/**
 	* @brief		Getter on the downlink frame counter
@@ -373,7 +381,7 @@ public:
 	*				by executing a "mac get dnctr" command on the module
 	* @return		The received value as a \e decimal \e number, from 0 to 4294967295
 	*/
-	int64_t getDwnctr();
+	uint64_t getDwnctr();
 
 
 	/**
@@ -383,7 +391,7 @@ public:
 	* @param		devAddr		Hexadecimal number represented by an array whose size is \b 4 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool setDevAddr(const int8_t* devAddr);
+	bool setDevAddr(const uint8_t* devAddr);
 
 	/**
 	* @brief		Setter for the device EUI
@@ -392,7 +400,7 @@ public:
 	* @param		devEUI		Hexadecimal number represented by an array whose size is \b 8 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool setDevEUI(const int8_t* devEUI);
+	bool setDevEUI(const uint8_t* devEUI);
 
 	/**
 	* @brief		Setter for the application EUI
@@ -401,7 +409,7 @@ public:
 	* @param		appEUI		Hexadecimal number represented by an array whose size is \b 8 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool setAppEUI(const int8_t* appEUI);
+	bool setAppEUI(const uint8_t* appEUI);
 
 	/**
 	* @brief		Setter for the network session key
@@ -410,7 +418,7 @@ public:
 	* @param		nwkSKey			Hexadecimal number represented by an array whose size is \b 16 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool setNwkSKey(const int8_t* nwkSKey);
+	bool setNwkSKey(const uint8_t* nwkSKey);
 
 	/**
 	* @brief		Setter for the application session key
@@ -419,7 +427,7 @@ public:
 	* @param		appSKey		Hexadecimal number represented by an array whose size is \b 16 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool setAppSKey(const int8_t* appSKey);
+	bool setAppSKey(const uint8_t* appSKey);
 
 	/**
 	* @brief		Setter for the application key
@@ -428,7 +436,7 @@ public:
 	* @param		appKey		Hexadecimal number represented by an array whose size is \b 16 int8_t
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
-	bool setAppKey(const int8_t* appKey);
+	bool setAppKey(const uint8_t* appKey);
 
 	/**
 	* @brief		Setter for the power index value
@@ -563,6 +571,24 @@ public:
 	* @return		Boolean value, true if everything is ok, false if there was a problem during the execution
 	*/
 	bool resume();	
+
+	/**
+	* @brief            Put the Sodaq Explorer in deepsleep mode
+	* @details         This function allows the user to put the RN2483 module and the processor in sleep mode for a given
+	*                       amount of time.
+	* @param         hours               Decimal number representing hour component for sleeping time
+	* @param         minutes            Decimal number representing minute component for sleeping time
+	* @param         seconds           Decimal number representing second component for sleeping time
+	*/
+	void deepSleep(uint8_t hours, uint8_t minutes, uint8_t seconds);
+
+	/**
+	* @brief            Check if the Sodaq Explorer is in deepsleep mode or not
+	* @details         This function allows the user to check if the Sodaq Explorer is currently in a deepsleep mode or not.
+	* @return           Boolean value corresponding to the current state.
+	*/
+	bool isDeepSleeping();
+
 };
 
 extern OrangeForRN2483Class OrangeForRN2483;

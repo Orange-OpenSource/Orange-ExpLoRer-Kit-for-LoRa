@@ -11,6 +11,7 @@
 * Version:     1.0-SNAPSHOT
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
+*			   2017-10-27 by Karim BAALI
 */
 
 #include "RadioCmds.h"
@@ -18,7 +19,7 @@
 
 eBT RadioCmdsClass::getBt()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[BT]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[BT]);
 
 	if(response == NULL) return BT_ERROR;
 
@@ -40,7 +41,7 @@ bool RadioCmdsClass::setBt(eBT bt)
 
 eModulation RadioCmdsClass::getModulation()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[MOD]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[MOD]);
 	if (response == NULL) return GET_MODULATION_ERROR;
 
 	eModulation modulation = String((char*)response).equals("lora") ? LORA_MODULATION : FSK_MODULATION;
@@ -56,7 +57,7 @@ bool RadioCmdsClass::setModulation(eModulation modulation)
 
 eSpreadingFactor RadioCmdsClass::getSF()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[SPR_FACTOR]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[SPR_FACTOR]);
 	
 	if(response == NULL) return SF_ERROR;
 	
@@ -72,19 +73,19 @@ bool RadioCmdsClass::setSF(eSpreadingFactor spreadingFactor)
 
 eBoolean RadioCmdsClass::getCrc()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[CRC]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[CRC]);
 	return (response != NULL) ? iS_ON(String((char*)response)) : BOOL_ERROR;
 }
 
 eBoolean RadioCmdsClass::getIqInversion()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[IQ_INVERS]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[IQ_INVERS]);
 	return (response != NULL) ? iS_ON(String((char*)response)) : BOOL_ERROR;
 }
 
 eCodingRate RadioCmdsClass::getCodingRate()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[CODING_RATE]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[CODING_RATE]);
 	if (response == NULL) return CR_ERROR;
 
 	String res = String((char*)response);
@@ -98,7 +99,7 @@ eCodingRate RadioCmdsClass::getCodingRate()
 
 short RadioCmdsClass::getSync()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[SYNC_RADIO]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[SYNC_RADIO]);
 	if (response == NULL) return INT_ERROR_FAILED;
 
 	String sync = "0x" + String((char*)response);
@@ -107,19 +108,19 @@ short RadioCmdsClass::getSync()
 
 float RadioCmdsClass::getAutoFreqCorrBw()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[AUTO_FREQ_CORR_BW]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[AUTO_FREQ_CORR_BW]);
 	return (response != NULL) ? String((char*)response).toFloat() : FLT_ERROR_FAILED;
 }
 
 float RadioCmdsClass::getReceiveBw()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[RECEIVE_BW]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[RECEIVE_BW]);
 	return (response != NULL) ? String((char*)response).toFloat() : FLT_ERROR_FAILED;
 }
 
 bool RadioCmdsClass::getOutputPower(int8_t& outputPower)
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[PWR]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[PWR]);
 	if(response == NULL) return false;
   
 	outputPower = String((char*)response).toInt();
@@ -133,37 +134,37 @@ bool RadioCmdsClass::setOutputPower(int8_t pwrout)
 
 int16_t RadioCmdsClass::getBandWidth()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[BANDWIDTH]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[BANDWIDTH]);
 	return (response != NULL) ? String((char*)response).toInt() : INT_ERROR_FAILED;
 }
 
 int16_t RadioCmdsClass::getSigNoiseRation()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[SIG_NOISE_RATIO]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[SIG_NOISE_RATIO]);
 	return (response != NULL) ? String((char*)response).toInt() : INT_ERROR_FAILED;
 }
 
 int32_t RadioCmdsClass::getBitRate()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[BIT_RATE]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[BIT_RATE]);
 	return (response != NULL) ? String((char*)response).toInt() : INT_ERROR_FAILED;
 }
 
 int32_t RadioCmdsClass::getFreqDeviation()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[FREQ_DEVIATION]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[FREQ_DEVIATION]);
 	return (response != NULL) ? String((char*)response).toInt() : INT_ERROR_FAILED;
 }
 
 int32_t RadioCmdsClass::getPreambleLength()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[PREAMBLE_LENGTH]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[PREAMBLE_LENGTH]);
 	return (response != NULL) ? String((char*)response).toInt() : INT_ERROR_FAILED;
 }
 
 int32_t RadioCmdsClass::getFrequency()
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[FREQ]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[FREQ]);
 	return (response != NULL) ? String((char*)response).toInt() : INT_ERROR_FAILED;
 }
 
@@ -174,7 +175,7 @@ bool RadioCmdsClass::setFrequency(int32_t frequency)
 
 bool RadioCmdsClass::getWatchdog(uint64_t& watchdog)
 {
-	int8_t* response = RnRequest.rnRequest(RADIO, GET, params[WATCHDOG_TIMER]);
+	uint8_t* response = RnRequest.rnRequest(RADIO, GET, params[WATCHDOG_TIMER]);
 	if (response == NULL) return false;
 	
 	watchdog = String((char*)response).toInt();
@@ -185,3 +186,4 @@ bool RadioCmdsClass::setAutoFreqBand(String autoFreqBand)
 {
 	return (RnRequest.rnRequest(RADIO, SET, params[AUTO_FREQ_CORR_BW], autoFreqBand.c_str()) != NULL);
 }
+

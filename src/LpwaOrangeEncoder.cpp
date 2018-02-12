@@ -8,8 +8,9 @@
 
 /* Orange LoRa Explorer Kit
 *
-* Version:     1.0-SNAPSHOT
+* Version:    1.0-SNAPSHOT
 * Created:    2017-04-21 by Halim BENDIABDALLAH
+* Modified:	  2017-10-27 by Karim BAALI
 */
 
 #include <Arduino.h>
@@ -38,11 +39,11 @@ void LpwaOrangeEncoderClass::flush()
 	memset(framePayload, 0, MAX_LEN_PAYLOAD);
 }
 
-int8_t* LpwaOrangeEncoderClass::getFramePayload(int8_t* len)
+uint8_t* LpwaOrangeEncoderClass::getFramePayload(int8_t* len)
 {
 	if (len == 0) return NULL;
 	*len = counter;
-	return (int8_t*)framePayload;
+	return (uint8_t*)framePayload;
 }
 
 bool LpwaOrangeEncoderClass::addByte(int8_t value)

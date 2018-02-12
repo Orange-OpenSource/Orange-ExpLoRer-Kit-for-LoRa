@@ -12,6 +12,7 @@
 * Created:     2017-02-15 by Karim BAALI 
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-05-09 by Karim BAALI
+*			   2017-10-27 by Karim BAALI
 */
 
 
@@ -27,12 +28,12 @@ DownlinkMessage::~DownlinkMessage()
 
 }
 
-void DownlinkMessage::setPort(int8_t port)
+void DownlinkMessage::setPort(uint8_t port)
 {
 	this->port = port;
 }
 
-void DownlinkMessage::setResponseMessage(int8_t* message)
+void DownlinkMessage::setResponseMessage(uint8_t* message)
 {
 	if (message == NULL)
 	{
@@ -52,7 +53,7 @@ void DownlinkMessage::setResponseMessage(int8_t* message)
 	strcpy((char*)receiveBuffer, msg.c_str());
 }
 
-int8_t DownlinkMessage::getPort(){
+uint8_t DownlinkMessage::getPort(){
 	return this->port;
 }
 
@@ -64,7 +65,7 @@ const String DownlinkMessage::getMessage() {
 	return msg;
 }
 
-const int8_t* DownlinkMessage::getMessageByteArray(int8_t* len) {
+const uint8_t* DownlinkMessage::getMessageByteArray(int8_t* len) {
 	*len = (int8_t) strlen((char*)receiveBuffer);
 
 	if (*len == 0) {

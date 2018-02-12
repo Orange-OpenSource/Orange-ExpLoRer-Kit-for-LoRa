@@ -11,6 +11,7 @@
 * Version:     1.0-SNAPSHOT
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
+*			   2017-10-27 by Karim BAALI
 */
 
 #include "SysCmds.h"
@@ -22,7 +23,7 @@ String SysCmdsClass::getVersion()
 	return String((char*)RnRequest.rnRequest(SYS, GET, params[VERSION]));
 }
 
-String SysCmdsClass::getNvm(int8_t address[2])
+String SysCmdsClass::getNvm(uint8_t address[2])
 {
 	return String((char*)RnRequest.rnRequest(SYS, GET, params[NVM], address, 2));
 }
@@ -36,7 +37,7 @@ bool SysCmdsClass::setNvm(uint8_t address[2], uint8_t data[1])
 
 String SysCmdsClass::getHardwareDevEUI()
 {
-	int8_t* data = RnRequest.rnRequest(SYS, GET, params[HWEUI]);
+	uint8_t* data = RnRequest.rnRequest(SYS, GET, params[HWEUI]);
 	return String((char*)data);
 }
 
@@ -69,7 +70,7 @@ String SysCmdsClass::getPinana(String pinname)
 
 int16_t SysCmdsClass::getVdd()
 {
-	int8_t* response = RnRequest.rnRequest(SYS, GET, params[VDD]);
+	uint8_t* response = RnRequest.rnRequest(SYS, GET, params[VDD]);
 	return (response != NULL) ? String((char*)response).toInt() : INT_ERROR_FAILED;
 }
 
@@ -84,3 +85,16 @@ String SysCmdsClass::reset()
 	return String((char*)RnRequest.rnRequest(SYS, params[RESET]));
 }
 
+void SysCmdsClass::wakeUp()
+{
+	if (isAsleep())
+	{
+		RnRequest.setBreakCondition();
+
+		delay(100);
+
+		// set baudrate
+		RnRequest.setWakeupFlag();
+		RnRequest.isAsleep = false;
+	}
+}

@@ -11,7 +11,8 @@
 * Version:     1.0-SNAPSHOT
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
-*			   2017-05-09 by Karim BAALI
+*			         2017-05-09 by Karim BAALI
+*              2017-10-27 by Karim BAALI
 */
 
 #include <OrangeForRN2483.h>
@@ -19,8 +20,8 @@
 #define debugSerial SerialUSB
 
 // The following keys are for structure purpose only. You must define YOUR OWN. 
-const int8_t appEUI[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-const int8_t appKey[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+const uint8_t appEUI[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+const uint8_t appKey[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 int count = 0;
 int buttonCount = 0;
@@ -194,9 +195,9 @@ void loop() {
     LpwaOrangeEncoder.addFloat(temperature);
     LpwaOrangeEncoder.addInt(nbrPush);
 
-    int port = 5;
+    uint8_t port = 5;
     int8_t len;
-    int8_t* frame = LpwaOrangeEncoder.getFramePayload(&len);
+    uint8_t* frame = LpwaOrangeEncoder.getFramePayload(&len);
     debugFrame(frame, len);
     bool res = OrangeForRN2483.sendMessage(frame, len, port);
 

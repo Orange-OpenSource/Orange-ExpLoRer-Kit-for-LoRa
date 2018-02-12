@@ -11,6 +11,7 @@
 * Version:     1.0-SNAPSHOT
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
+*			   2017-10-27 by Karim BAALI
 */
 
 #include <stdio.h>
@@ -58,7 +59,7 @@ bool RnRequestClass::cmdRequest(uint8_t type, const char* command, const char* p
 	return true;
 }
 
-bool RnRequestClass::writeHexString(const int8_t* paramValue, uint8_t lenParamValue)
+bool RnRequestClass::writeHexString(const uint8_t* paramValue, uint8_t lenParamValue)
 {
 	if ((paramValue == NULL) || (lenParamValue <= 0)) return false;
 
@@ -69,7 +70,7 @@ bool RnRequestClass::writeHexString(const int8_t* paramValue, uint8_t lenParamVa
 	}
 }
 
-int8_t* RnRequestClass::rnUplinkRequest(const char* paramName, const int8_t* paramValue, uint8_t lenParamValue, int8_t port)
+uint8_t* RnRequestClass::rnUplinkRequest(const char* paramName, const uint8_t* paramValue, uint8_t lenParamValue, uint8_t port)
 {
 	if (checkIsAsleep()) return NULL;
 
@@ -81,13 +82,13 @@ int8_t* RnRequestClass::rnUplinkRequest(const char* paramName, const int8_t* par
 	writeHexString(paramValue, lenParamValue);
 	this->loraStream->print(CRLF);
 
-	int8_t* response = getResponse();
+	uint8_t* response = getResponse();
 	if (response == NULL) return NULL;
 
 	return getResponse(UPLINK_TIMEOUT);
 }
 
-int8_t* RnRequestClass::rnRequest(uint8_t type, const char* command, const char* paramName, const int8_t* paramValue, uint8_t lenParamValue)
+uint8_t* RnRequestClass::rnRequest(uint8_t type, const char* command, const char* paramName, const uint8_t* paramValue, uint8_t lenParamValue)
 {
 	if (checkIsAsleep()) return NULL;
 
@@ -99,7 +100,7 @@ int8_t* RnRequestClass::rnRequest(uint8_t type, const char* command, const char*
 	return getResponse();
 }
 
-int8_t* RnRequestClass::rnRequest(uint8_t type, const char* command, const char* paramName, const char* paramValues)
+uint8_t* RnRequestClass::rnRequest(uint8_t type, const char* command, const char* paramName, const char* paramValues)
 {
 	if (checkIsAsleep()) return NULL;
 
@@ -122,7 +123,7 @@ uint32_t RnRequestClass::getTimeoutDelay(const char* command)
 	return (strcmp(command, "save") != 0) ? DEFAULT_TIMEOUT : SAVE_TIMEOUT;
 }
 
-int8_t* RnRequestClass::getResponse(uint32_t timeout)
+uint8_t* RnRequestClass::getResponse(uint32_t timeout)
 {
 	uint16_t len;
 	unsigned long start = millis();
@@ -152,7 +153,7 @@ uint16_t RnRequestClass::getReceivedData()
 	return readLn(this->receiveBuffer, DEFAULT_INPUT_BUFFER_SIZE);
 }
 
-uint16_t RnRequestClass::readLn(int8_t* buffer, uint16_t size)
+uint16_t RnRequestClass::readLn(uint8_t* buffer, uint16_t size)
 {
 	uint16_t len = this->loraStream->readBytesUntil('\n', (uint8_t*)buffer, size);
 	if (len > 0) {
@@ -161,7 +162,7 @@ uint16_t RnRequestClass::readLn(int8_t* buffer, uint16_t size)
 	return len;
 }
 
-eSuccessType RnRequestClass::checkSuccess(int8_t* resp) {
+eSuccessType RnRequestClass::checkSuccess(uint8_t* resp) {
 	int resNum = -1;
 
 	bool found = false;
@@ -176,7 +177,7 @@ eSuccessType RnRequestClass::checkSuccess(int8_t* resp) {
 	return (found ? (eSuccessType)i : LORA_FAILED);
 }
 
-eErrorType RnRequestClass::checkErrors(int8_t* resp) {
+eErrorType RnRequestClass::checkErrors(uint8_t* resp) {
 	int resNum = -1;
 
 	bool found = false;
@@ -220,4 +221,23 @@ bool RnRequestClass::checkIsAsleep()
 	isAsleep = false;
 
 	return isAsleep;
+}
+
+void RnRequestClass::setBreakCondition()
+{
+	// "emulate" break condition
+	this->loraStream->flush();
+
+	this->loraStream->begin(300);
+	this->loraStream->write((uint8_t)0x00);
+	this->loraStream->flush();
+}
+
+void RnRequestClass::setWakeupFlag()
+{
+	this->loraStream->begin(57600);
+	this->loraStream->write((uint8_t)0x55);
+	this->loraStream->flush();
+
+	RnRequest.getResponse();
 }

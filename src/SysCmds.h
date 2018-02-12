@@ -12,6 +12,7 @@
 * Created:     2017-02-15 by Karim BAALI 
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-05-09 by Karim BAALI
+*			   2017-10-27 by Karim BAALI
 */
 
 /**
@@ -79,7 +80,7 @@ class SysCmdsClass
 	 * @param		address			Hexadecimal number represented by an array whose size is \b 2 int8_t
 	 * @return		The received hexadecimal data stored at the address as a \e string value
 	 */
-	 String getNvm(int8_t address[2]);
+	 String getNvm(uint8_t address[2]);
 
 	 /**
 	 * @brief		Setter for the data stored in the user EEPROM of the module
@@ -168,6 +169,8 @@ class SysCmdsClass
 	 * @return		String value corresponding to the received firmware information 
 	 */
 	 String reset();
+
+	 void wakeUp();
 };
 
 #endif

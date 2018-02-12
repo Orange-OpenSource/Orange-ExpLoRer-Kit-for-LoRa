@@ -11,6 +11,7 @@
 * Version:     1.0-SNAPSHOT
 * Created:     2017-06-01 by Halim BENDIABDALLAH
 * Modified:    2017-06-01 by Karim BAALI
+*			   2017-10-27 by Karim BAALI
 */
 
 /**
@@ -29,12 +30,12 @@
 class DownlinkMessage
 {
 private:
-	int8_t port;
-	int8_t receiveBuffer[DEFAULT_INPUT_BUFFER_SIZE];	
-	int8_t arrayMessage[DEFAULT_INPUT_BUFFER_SIZE / 2];
+	uint8_t port;
+	uint8_t receiveBuffer[DEFAULT_INPUT_BUFFER_SIZE];	
+	uint8_t arrayMessage[DEFAULT_INPUT_BUFFER_SIZE / 2];
 protected:
-	void setPort(int8_t port);
-	void setResponseMessage(int8_t* message);
+	void setPort(uint8_t port);
+	void setResponseMessage(uint8_t* message);
 public:
 	friend class OrangeForRN2483Class;
 
@@ -55,7 +56,7 @@ public:
 	* @details		This function allows the user to have access to the port attribute
 	* @return		Decimal number corresponding to the port attribute value
 	*/
-	int8_t getPort();
+	uint8_t getPort();
 
 	/**
 	* @brief		Getter for the \e receiveBuffer class attribute as a string value
@@ -72,6 +73,6 @@ public:
 	* @param		len		Pointer on an uint8_t value to receive the message length value
 	* @return		Byte array corresponding to the receiveBuffer attribute value
 	*/
-	const int8_t* getMessageByteArray(int8_t* len);
+	const uint8_t* getMessageByteArray(int8_t* len);
 };
 #endif

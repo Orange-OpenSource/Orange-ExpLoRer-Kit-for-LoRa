@@ -10,6 +10,7 @@
 *
 * Version:     1.0-SNAPSHOT
 * Created:     2017-04-21 by Halim BENDIABDALLAH
+* Modified:	   2017-10-27 by Karim BAALI
 */
 
 /**
@@ -21,7 +22,7 @@
 #define _INTERNAL_CONST_RN2483_H
 
 
-//#define DEBUG    //Remove this line to avoid debug printing
+#define DEBUG    //Remove this line to avoid debug printing
 
 #ifdef DEBUG
 #define debugPrintLn(X) SerialUSB.println((char*)X)
