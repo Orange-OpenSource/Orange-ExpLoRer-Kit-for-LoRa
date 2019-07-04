@@ -13,6 +13,7 @@
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			         2017-05-09 by Karim BAALI
 *              2017-10-27 by Karim BAALI
+*			201907-04 by Laurent CHIVOT
 */
 
 #include <OrangeForRN2483.h>
@@ -24,7 +25,7 @@ bool first = true;
 void setup() {
   debugSerial.begin(57600); 
 
-  while ((!debugSerial) && (millis() < 10000)) ;
+  while ((!debugSerial) && (millis() < 12000)) ;
 
   OrangeForRN2483.init();
 }
