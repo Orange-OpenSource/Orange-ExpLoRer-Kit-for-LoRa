@@ -13,7 +13,7 @@
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			         2017-05-09 by Karim BAALI
 *              2017-10-27 by Karim BAALI
-*			201907-04 by Laurent CHIVOT
+*			201907-04 by Laurent CHIVOT 12 sec timer before asking the RN module for its HWEUI
 */
 
 #include <OrangeForRN2483.h>
@@ -41,4 +41,3 @@ void loop() {
     debugSerial.println("Program finished");
   } 
 }
-
