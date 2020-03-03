@@ -11,6 +11,7 @@
 * Version:     1.0-SNAPSHOT
 * Created:     2017-04-21 by Halim BENDIABDALLAH
 * Modified:	   2017-10-27 by Karim BAALI
+*				2020-03-03 by Laurent CHIVOT
 */
 
 /**
@@ -25,16 +26,16 @@
 #define DEBUG    //Remove this line to avoid debug printing
 
 #ifdef DEBUG
-#define debugPrintLn(X) SerialUSB.println((char*)X)
-#define debugPrint(X) SerialUSB.print((char*)X)
-#define debugInt(X) SerialUSB.print((int)X, HEX)
-#define debugIntLn(X) SerialUSB.println((int)X, HEX)
+#define loraDebugPrintLn(X) SerialUSB.println((char*)X)
+#define loraDebugPrint(X) SerialUSB.print((char*)X)
+#define loraDebugInt(X) SerialUSB.print((int)X, HEX)
+#define loraDebugIntLn(X) SerialUSB.println((int)X, HEX)
 #warning "Debug mode is ON"
 #else
-#define debugPrintLn(...)
-#define debugPrint(...)
-#define debugInt(...)
-#define debugIntLn(...)
+#define loraDebugPrintLn(...)
+#define loraDebugPrint(...)
+#define loraDebugInt(...)
+#define loraDebugIntLn(...)
 #endif
 
 #define HEX_CHAR_TO_HIGH_NIBBLE(X) (((X >= 'A') ? X - 'A' + 10 : X - '0') << 4)

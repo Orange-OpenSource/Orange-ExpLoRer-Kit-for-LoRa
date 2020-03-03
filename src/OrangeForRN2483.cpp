@@ -13,6 +13,7 @@
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-10-27 by Karim BAALI
 *			   2017-12-07 by Halim BENDIABDALLAH
+*				2020-03-03 by Laurent CHIVOT
 */
 
 #include <stdio.h>
@@ -120,9 +121,9 @@ bool OrangeForRN2483Class::joinNetwork(const uint8_t* appEui, const uint8_t* app
 
 		hwDevEui[i] = HEX_CHAR_TO_HIGH_NIBBLE(highNibbleStr) + HEX_CHAR_TO_LOW_NIBBLE(lowNibbleStr);
 		
-		debugInt((int)hwDevEui[i]); debugPrint(" ");
+		loraDebugInt((int)hwDevEui[i]); loraDebugPrint(" ");
 	}
-	debugPrintLn("");
+	loraDebugPrintLn("");
 	return joinNetwork((const uint8_t*)hwDevEui, appEui, appKey);
 }
 

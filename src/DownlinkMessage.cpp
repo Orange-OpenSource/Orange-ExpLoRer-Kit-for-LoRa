@@ -13,6 +13,7 @@
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-05-09 by Karim BAALI
 *			   2017-10-27 by Karim BAALI
+*				2020-03-03 by Laurent CHIVOT
 */
 
 
@@ -80,7 +81,7 @@ const uint8_t* DownlinkMessage::getMessageByteArray(int8_t* len) {
 
 		arrayMessage[i] = HEX_CHAR_TO_HIGH_NIBBLE(highNibbleStr) + HEX_CHAR_TO_LOW_NIBBLE(lowNibbleStr);
 
-		debugInt((int)arrayMessage[i]); debugPrint(" ");
+		loraDebugInt((int)arrayMessage[i]); loraDebugPrint(" ");
 	}
 	*len /= 2;
 	return arrayMessage;

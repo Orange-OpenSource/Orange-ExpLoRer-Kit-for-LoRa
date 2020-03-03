@@ -12,6 +12,7 @@
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-10-27 by Karim BAALI
+*				2020-03-03 by Laurent CHIVOT
 */
 
 #include <stdio.h>
@@ -45,7 +46,7 @@ bool RnRequestClass::cmdRequest(uint8_t type, const char* command, const char* p
 {
 	if (command == NULL)  return false;
 
-	debugPrint(commandType[type]); debugPrint(SEPARATOR);  debugPrint(command); debugPrint(SEPARATOR);  debugPrintLn(paramName);
+	loraDebugPrint(commandType[type]); loraDebugPrint(SEPARATOR);  loraDebugPrint(command); loraDebugPrint(SEPARATOR);  loraDebugPrintLn(paramName);
 
 	this->loraStream->print(commandType[type]);
 	this->loraStream->print(SEPARATOR);
@@ -132,8 +133,8 @@ uint8_t* RnRequestClass::getResponse(uint32_t timeout)
 		len = getReceivedData();
 
 		if (len > 0) {
-			debugPrint("Rn2483 Buffer: ");
-			debugPrintLn(this->receiveBuffer);
+			loraDebugPrint("Rn2483 Buffer: ");
+			loraDebugPrintLn(this->receiveBuffer);
 			
 			this->successType = checkSuccess(this->receiveBuffer);
 			if (this->successType != LORA_FAILED) return this->receiveBuffer;
@@ -189,7 +190,7 @@ eErrorType RnRequestClass::checkErrors(uint8_t* resp) {
 		else i++;
 	}
 
-	debugPrint("Response : "); debugPrint(resp); debugPrintLn(" received during execution !");
+	loraDebugPrint("Response : "); loraDebugPrint(resp); loraDebugPrintLn(" received during execution !");
 	return (found ? (eErrorType)i : LORA_SUCCESS);
 }
 

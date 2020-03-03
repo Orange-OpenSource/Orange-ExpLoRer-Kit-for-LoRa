@@ -12,6 +12,7 @@
 * Created:     2017-02-15 by Karim BAALI
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			   2017-10-27 by Karim BAALI
+*				2020-03-03 by Laurent CHIVOT
 */
 
 #include "RadioCmds.h"

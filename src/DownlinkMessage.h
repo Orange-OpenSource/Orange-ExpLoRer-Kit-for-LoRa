@@ -12,6 +12,7 @@
 * Created:     2017-06-01 by Halim BENDIABDALLAH
 * Modified:    2017-06-01 by Karim BAALI
 *			   2017-10-27 by Karim BAALI
+*				2020-03-03 by Laurent CHIVOT
 */
 
 /**
