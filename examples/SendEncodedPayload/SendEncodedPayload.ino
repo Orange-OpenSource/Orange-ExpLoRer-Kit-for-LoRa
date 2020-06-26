@@ -13,6 +13,7 @@
 * Modified:    2017-04-21 by Halim BENDIABDALLAH
 *			         2017-05-09 by Karim BAALI
 *              2017-10-27 by Karim BAALI
+*              2020-06-26 by Laurent CHIVOT added transtyping for variable of the debugFrame function
 */
 
 #include <OrangeForRN2483.h>
@@ -198,7 +199,7 @@ void loop() {
     uint8_t port = 5;
     int8_t len;
     uint8_t* frame = LpwaOrangeEncoder.getFramePayload(&len);
-    debugFrame(frame, len);
+    debugFrame((int8_t*)frame, len);
     bool res = OrangeForRN2483.sendMessage(frame, len, port);
 
     if(res) {
@@ -250,7 +251,3 @@ void loop() {
     timestamp = millis();   
   }
 }
-
-
-
-
